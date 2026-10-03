@@ -67,16 +67,6 @@ app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/admin', adminRoutes);
 
-// In production the Express server can serve the built React app, allowing the
-// whole project to be deployed as one Render web service.
-const clientDist = path.join(__dirname, '..', 'client', 'dist');
-if (isProduction) {
-  app.use(express.static(clientDist, { index: false, maxAge: '1d' }));
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api/')) return next();
-    res.sendFile(path.join(clientDist, 'index.html'), err => err && next(err));
-  });
-}
 
 app.use(notFound);
 app.use(errorHandler);
@@ -97,3 +87,4 @@ const start = async () => {
 if (require.main === module) start();
 
 module.exports = app;
+
